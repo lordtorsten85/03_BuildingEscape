@@ -38,7 +38,6 @@ void UButtonComponent::BeginOverlap(UPrimitiveComponent * OverlappedComponent, A
 {
 	if (OtherActor == UGameplayStatics::GetPlayerPawn(this, 0))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("You are in the collsiion sphere!"));
 		bCanInteractWithButton = true;
 	}
 }
@@ -47,7 +46,6 @@ void UButtonComponent::EndOverlap(UPrimitiveComponent* OverlappedComp, AActor* O
 {
 	if (OtherActor == UGameplayStatics::GetPlayerPawn(this, 0))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("You left the collsiion sphere!"));
 		bCanInteractWithButton = false;
 	}
 }
@@ -56,6 +54,6 @@ void UButtonComponent::PushButton()
 {
 	if (bCanInteractWithButton)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("You pressed the button!"));
+		ButtonPressed.Broadcast();
 	}
 }

@@ -8,6 +8,7 @@
 
 class ATriggerVolume;
 class UProjectileLauncherBarrel;
+class UButtonComponent;
 
 UCLASS()
 class BUILDINGESCAPE_API AProjectileLauncher : public AActor
@@ -22,7 +23,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	
 	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void Initialize(UProjectileLauncherBarrel* BarrelToSet);
+	void Initialize(UProjectileLauncherBarrel* BarrelToSet, UButtonComponent* ButtonToSet);
 
 protected:
 	// Called when the game starts or when spawned
@@ -38,9 +39,13 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* BaseMesh = nullptr;
 
-	UPROPERTY(VisibleAnywhere)
 	UProjectileLauncherBarrel* Barrel = nullptr;
+
+	UButtonComponent* Button = nullptr;
 
 	// Gets mass of actors on plate in KG
 	float GetTotalMassOfActorsOnPlates();
+
+	UFUNCTION()
+	void OnAttachedButtonPressed();
 };

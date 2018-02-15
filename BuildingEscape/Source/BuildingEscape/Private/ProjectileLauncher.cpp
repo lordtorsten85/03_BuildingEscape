@@ -2,6 +2,8 @@
 
 #include "BuildingEscape.h"
 #include "ProjectileLauncher.h"
+#include "ProjectileLauncherBarrel.h"
+#include "ButtonComponent.h"
 
 #define OUT
 
@@ -13,6 +15,8 @@ AProjectileLauncher::AProjectileLauncher()
 
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("Base Mesh"));
 	SetRootComponent(BaseMesh);
+
+	
 
 }
 
@@ -36,9 +40,13 @@ void AProjectileLauncher::Tick(float DeltaTime)
 
 }
 
-void AProjectileLauncher::Initialize(UProjectileLauncherBarrel * BarrelToSet)
+void AProjectileLauncher::Initialize(UProjectileLauncherBarrel* BarrelToSet, UButtonComponent* ButtonToSet)
 {
 	Barrel = BarrelToSet;
+	Button = ButtonToSet;
+
+	if (!ensure(Button)) { return; }
+	Button->ButtonPressed.AddUniqueDynamic(this, &AProjectileLauncher::OnAttachedButtonPressed);
 }
 
 float AProjectileLauncher::GetTotalMassOfActorsOnPlates()
@@ -62,4 +70,9 @@ float AProjectileLauncher::GetTotalMassOfActorsOnPlates()
 	}
 
 	return TotalMass;
+}
+
+void AProjectileLauncher::OnAttachedButtonPressed()
+{
+	UE_LOG(LogTemp, Warning, TEXT("YOU PRESSED THE BUTTON"));
 }

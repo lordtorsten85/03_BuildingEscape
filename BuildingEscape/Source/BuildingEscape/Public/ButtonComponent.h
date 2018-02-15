@@ -6,9 +6,11 @@
 #include "Components/StaticMeshComponent.h"
 #include "ButtonComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPushButton);
 /**
  * 
  */
+
 UCLASS(meta = (BlueprintSpawnableComponent), hidecategories = ("Collision"))
 class BUILDINGESCAPE_API UButtonComponent : public UStaticMeshComponent
 {
@@ -23,6 +25,8 @@ public:
 
 	// Called when the game starts
 	virtual void BeginPlay() override;
+
+	FPushButton ButtonPressed;
 
 private:
 	bool bCanInteractWithButton = false;
