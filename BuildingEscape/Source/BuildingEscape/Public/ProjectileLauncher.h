@@ -25,6 +25,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialize(UProjectileLauncherBarrel* BarrelToSet, UButtonComponent* ButtonToSet);
 
+	// Gets mass of actors on plate in KG
+	UFUNCTION(BlueprintPure, Category = "Mass On Plates")
+	float GetTotalMassOfActorsOnPlates();
+
+	UPROPERTY(BlueprintReadOnly, Category = "Weight")
+	float WeightOnScales = 0.f;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -42,9 +49,6 @@ private:
 	UProjectileLauncherBarrel* Barrel = nullptr;
 
 	UButtonComponent* Button = nullptr;
-
-	// Gets mass of actors on plate in KG
-	float GetTotalMassOfActorsOnPlates();
 
 	UFUNCTION()
 	void OnAttachedButtonPressed();

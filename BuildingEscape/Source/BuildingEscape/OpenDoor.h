@@ -28,6 +28,9 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FDoorEvent OnClose;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Override Functions")
+	bool bOverrideOnCloseTick = false;
+
 
 private:
 	UPROPERTY(EditAnywhere)
@@ -41,4 +44,5 @@ private:
 
 	// Returns total mass in kg
 	float GetTotalMassOfActorsOnPlate();
+
 };

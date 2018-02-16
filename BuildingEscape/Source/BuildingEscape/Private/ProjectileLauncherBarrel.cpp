@@ -4,17 +4,17 @@
 #include "ProjectileLauncherBarrel.h"
 #include "Projectile.h"
 
-void UProjectileLauncherBarrel::Fire()
+void UProjectileLauncherBarrel::Fire(float MassOnScales)
 {
 	if (!ensure(ProjectileBlueprint)) { return; }
 
 	auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 	ProjectileBlueprint,
-	this->GetSocketLocation("Projectile"),
-	this->GetSocketRotation("Projectile")
+	GetSocketLocation(FName("Projectile")),
+	GetSocketRotation(FName("Projectile"))
 	);
 
 	if (!ensure(Projectile)) { return;  }
-	Projectile->LaunchProjectile(FireSpeed);
-
+	Projectile->LaunchProjectile(FireSpeedMultiplier * MassOnScales);
+	auto ProjectileLocation = Projectile->GetActorLocation();
 }

@@ -16,8 +16,6 @@ AProjectileLauncher::AProjectileLauncher()
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("Base Mesh"));
 	SetRootComponent(BaseMesh);
 
-	
-
 }
 
 // Called when the game starts or when spawned
@@ -37,7 +35,6 @@ void AProjectileLauncher::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	GetTotalMassOfActorsOnPlates();
-
 }
 
 void AProjectileLauncher::Initialize(UProjectileLauncherBarrel* BarrelToSet, UButtonComponent* ButtonToSet)
@@ -55,10 +52,10 @@ float AProjectileLauncher::GetTotalMassOfActorsOnPlates()
 	TArray<AActor*> ActorsOnAddPlate;
 	TArray<AActor*> ActorsOnSubtractPlate;
 
+	if (!AddWeightTrigger || !SubtractWeightTrigger) { return TotalMass; }
+
 	AddWeightTrigger->GetOverlappingActors(OUT ActorsOnAddPlate);
 	SubtractWeightTrigger->GetOverlappingActors(OUT ActorsOnSubtractPlate);
-
-	if (!AddWeightTrigger || !SubtractWeightTrigger) { return TotalMass; }
 
 	for (const auto& Actor : ActorsOnAddPlate)
 	{
@@ -69,10 +66,12 @@ float AProjectileLauncher::GetTotalMassOfActorsOnPlates()
 		TotalMass -= Actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
 	}
 
+	WeightOnScales = TotalMass;
 	return TotalMass;
-}
+} 
 
 void AProjectileLauncher::OnAttachedButtonPressed()
 {
-	UE_LOG(LogTemp, Warning, TEXT("YOU PRESSED THE BUTTON"));
+	if (!ensure(Barrel)) { return; }
+	Barrel->Fire(GetTotalMassOfActorsOnPlates());
 }

@@ -18,11 +18,12 @@ class BUILDINGESCAPE_API UProjectileLauncherBarrel : public UStaticMeshComponent
 public:
 	UPROPERTY(EditAnywhere, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBlueprint;
+	
+	void Fire(float MassOnScales);
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Firing")
-	float FireSpeed = 1000;
+	float FireSpeedMultiplier = 100;
 
-	void Fire();
 	
 };
